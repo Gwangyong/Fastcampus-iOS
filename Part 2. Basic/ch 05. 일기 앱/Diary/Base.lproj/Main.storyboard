@@ -112,6 +112,106 @@
             </objects>
             <point key="canvasLocation" x="911.59420289855075" y="164.73214285714286"/>
         </scene>
+        <!--Diary Detail View Controller-->
+        <scene sceneID="tUZ-nT-TEO">
+            <objects>
+                <viewController id="djm-XS-2Ah" customClass="DiaryDetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Pjb-dR-fXi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="NNI-h5-fWX">
+                                <rect key="frame" x="24" y="68" width="366" height="53"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1wK-Qh-Mt4">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bd-Ee-jC7">
+                                        <rect key="frame" x="0.0" y="32.5" width="366" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeV-ve-Gbo">
+                                <rect key="frame" x="24" y="145" width="366" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HOn-No-BdE">
+                                <rect key="frame" x="20" y="177.5" width="374" height="150"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="QL0-Np-jHi"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="krJ-kw-Mzl">
+                                <rect key="frame" x="24" y="351.5" width="366" height="53"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날짜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WU6-LV-Db4">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olX-5Q-tqH">
+                                        <rect key="frame" x="0.0" y="32.5" width="366" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="3M8-in-NXt">
+                                <rect key="frame" x="152" y="428.5" width="110" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lY1-PS-CgX">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="수정"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGf-hk-rbC">
+                                        <rect key="frame" x="80" y="0.0" width="30" height="30"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="삭제">
+                                            <color key="titleColor" systemColor="systemRedColor"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QqY-ck-iM0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QqY-ck-iM0" firstAttribute="trailing" secondItem="NNI-h5-fWX" secondAttribute="trailing" constant="24" id="BaO-8B-sNx"/>
+                            <constraint firstItem="NNI-h5-fWX" firstAttribute="top" secondItem="QqY-ck-iM0" secondAttribute="top" constant="24" id="DDW-LH-LAF"/>
+                            <constraint firstItem="QqY-ck-iM0" firstAttribute="trailing" secondItem="krJ-kw-Mzl" secondAttribute="trailing" constant="24" id="Esm-nZ-Yo5"/>
+                            <constraint firstItem="3M8-in-NXt" firstAttribute="centerX" secondItem="krJ-kw-Mzl" secondAttribute="centerX" id="FO8-di-xrx"/>
+                            <constraint firstItem="3M8-in-NXt" firstAttribute="top" secondItem="krJ-kw-Mzl" secondAttribute="bottom" constant="24" id="LnJ-qn-4Ho"/>
+                            <constraint firstItem="krJ-kw-Mzl" firstAttribute="leading" secondItem="QqY-ck-iM0" secondAttribute="leading" constant="24" id="PAv-h1-xEb"/>
+                            <constraint firstItem="HOn-No-BdE" firstAttribute="leading" secondItem="QqY-ck-iM0" secondAttribute="leading" constant="20" id="R8K-Ut-Ph5"/>
+                            <constraint firstItem="QqY-ck-iM0" firstAttribute="trailing" secondItem="HOn-No-BdE" secondAttribute="trailing" constant="20" id="UDg-ar-ow6"/>
+                            <constraint firstItem="HOn-No-BdE" firstAttribute="top" secondItem="CeV-ve-Gbo" secondAttribute="bottom" constant="12" id="hzx-bU-IcW"/>
+                            <constraint firstItem="krJ-kw-Mzl" firstAttribute="top" secondItem="HOn-No-BdE" secondAttribute="bottom" constant="24" id="jat-mh-8HW"/>
+                            <constraint firstItem="QqY-ck-iM0" firstAttribute="trailing" secondItem="CeV-ve-Gbo" secondAttribute="trailing" constant="24" id="mXN-hl-mt3"/>
+                            <constraint firstItem="CeV-ve-Gbo" firstAttribute="top" secondItem="NNI-h5-fWX" secondAttribute="bottom" constant="24" id="p1d-RK-ZXK"/>
+                            <constraint firstItem="NNI-h5-fWX" firstAttribute="leading" secondItem="QqY-ck-iM0" secondAttribute="leading" constant="24" id="rCW-uI-BXq"/>
+                            <constraint firstItem="CeV-ve-Gbo" firstAttribute="leading" secondItem="QqY-ck-iM0" secondAttribute="leading" constant="24" id="uPz-cv-zWh"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1lM-5T-pdU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1715.9420289855075" y="164.73214285714286"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -131,7 +231,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kan-KB-72n">
-                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="itemSize" width="180" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -191,7 +291,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="884" y="-573"/>
+            <point key="canvasLocation" x="882.60869565217399" y="-573.21428571428567"/>
         </scene>
         <!--일기 작성-->
         <scene sceneID="M4a-Ja-Wzm">
@@ -300,6 +400,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
