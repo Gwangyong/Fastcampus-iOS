@@ -60,6 +60,10 @@ class ViewController: UIViewController {
             guard let isStar = $0["isStar"] as? Bool else { return nil }
             return Diary(title: title, contents: contents, date: date, isStar: isStar)
         }
+        self.diaryList = self.diaryList.sorted(by: {
+            // 왼쪽 date값과, 오른쪽 date 값을 비교를 할건데, 그걸 내림차순으로 정렬한다는뜻
+            $0.date.compare($1.date) == .orderedDescending
+        })
     }
     
     // 아래에서 dateLabel.text가 그냥 date를 받으면, String이 아니라 date 타입이기 때문에, 여기서 포맷해줌
@@ -99,6 +103,10 @@ extension ViewController: WriteDiaryViewDelegate {
     func didSelectReigster(diary: Diary) {
         // Diary에 등록되어 넘어온 내용들을, diaryList에 추가되게 된다.
         self.diaryList.append(diary)
+        self.diaryList = self.diaryList.sorted(by: {
+            // 왼쪽 date값과, 오른쪽 date 값을 비교를 할건데, 그걸 내림차순으로 정렬한다는뜻
+            $0.date.compare($1.date) == .orderedDescending
+        })
         // 일기가 추가될 때마다, reload를 통해 일기 목록이 표시됨
         self.collectionView.reloadData()
     }
