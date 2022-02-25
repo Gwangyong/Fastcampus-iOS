@@ -1,5 +1,9 @@
 import UIKit
 
+protocol WriteDiaryViewDelegate: AnyObject {
+    func didSelectReigster(diary: Diary)
+}
+
 class WriteDirayViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
@@ -9,11 +13,15 @@ class WriteDirayViewController: UIViewController {
     
     private let datePicker = UIDatePicker()
     private var dirayDate: Date?
+    weak var delegate: WriteDiaryViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureContentsTextView()
         self.configureDatePicker()
+        self.configureInputField()
+        // 등록 버튼이 초기에 눌리지 않게끔 해줌
+        self.confirmButton.isEnabled = false
     }
     
 
@@ -35,10 +43,23 @@ class WriteDirayViewController: UIViewController {
         // datePickerValueDidChange가 값이 바뀔 때마다 datePickerValueDidChage가 호출됨
         self.datePicker.addTarget(self, action: #selector(datePickerValueDidChange(_:)), for: .valueChanged)
         self.dateTextField.inputView = self.datePicker
-        
+    }
+    
+    private func configureInputField() {
+        self.contentsTextView.delegate = self
+        // titleTextField 에 텍스트가 입력될 때마다, titleTextFieldDidChange(_:) 메소드가 호출되도록함
+        self.titleTextField.addTarget(self, action: #selector(titleTextFieldDidChange(_:)), for: .editingChanged)
+        self.dateTextField.addTarget(self, action: #selector(dateTextFieldDidChange(_:)), for: .editingChanged)
     }
     
     @IBAction func tapConfirmButton(_ sender: UIBarButtonItem) {
+        guard let title = self.titleTextField.text else { return }
+        guard let contents = self.contentsTextView.text else { return }
+        guard let date = self.dirayDate else { return }
+        let diary = Diary(title: title, contents: contents, date: date, isStar: false)
+        self.delegate?.didSelectReigster(diary: diary)
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     @objc private func datePickerValueDidChange(_ datePicker: UIDatePicker) {
@@ -48,10 +69,33 @@ class WriteDirayViewController: UIViewController {
         formmater.locale = Locale(identifier: "ko_KR")
         self.dirayDate = datePicker.date
         self.dateTextField.text = formmater.string(from: datePicker.date)
+        // dateTextField가 키보드 입력이 아니여서 dateTextFieldDidChange 메소드가 호출되지 않아서 아래의 코드로 변경될 때마다 Actions를 발생시켜서 호출되도록 함
+        self.dateTextField.sendActions(for: .editingChanged)
+    }
+     
+    @objc private func titleTextFieldDidChange(_ textField: UITextField) {
+        self.validateInputField()
     }
     
+    @objc private func dateTextFieldDidChange(_ textField: UITextField) {
+        self.validateInputField()
+    }
+    
+    // touchesBegan 이라는 터치가 시작될 때 불려지는 함수
     // 날짜 wheels에서 정하다가, 비어있는 화면들을 누르면 키보드가 내려가도록 하는 코드
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    private func validateInputField() {
+        // Nil 병합 연산자(??)를 통해서 값이 3가지 전부 비어있지 않으면, 등록 버튼이 활성화 되도록
+        self.confirmButton.isEnabled = !(self.titleTextField.text?.isEmpty ?? true) && !(self.dateTextField.text?.isEmpty ?? true) && !self.contentsTextView.text.isEmpty
+    }
+}
+
+extension WriteDirayViewController: UITextViewDelegate {
+    // TextView의 Text가 입력될 때마다 호출되는 메소드. 즉, 일기 작성 내용들이 입력될 때마다 이 메소드가 출력됨
+    func textViewDidChange(_ textView: UITextView) {
+        self.validateInputField()
     }
 }
