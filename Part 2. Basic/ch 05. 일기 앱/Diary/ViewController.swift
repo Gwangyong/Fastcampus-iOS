@@ -107,6 +107,7 @@ extension ViewController: UICollectionViewDelegate {
         let diary = self.diaryList[indexPath.row]
         viewController.diary = diary
         viewController.indexPath = indexPath
+        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -121,5 +122,13 @@ extension ViewController: WriteDiaryViewDelegate {
         })
         // 일기가 추가될 때마다, reload를 통해 일기 목록이 표시됨
         self.collectionView.reloadData()
+    }
+}
+
+// DiaryDetailViewController의 Delegate를 통해 받은 indexPath로, 삭제 버튼을 눌렀을 경우에 diaryList와 collectionView에서 삭제함
+extension ViewController: DiaryDetailViewDelegate {
+    func didSelectDelete(indexPath: IndexPath) {
+        self.diaryList.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
     }
 }
