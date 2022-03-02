@@ -115,7 +115,7 @@
         <!--Diary Detail View Controller-->
         <scene sceneID="tUZ-nT-TEO">
             <objects>
-                <viewController id="djm-XS-2Ah" customClass="DiaryDetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiaryDetailViewController" id="djm-XS-2Ah" customClass="DiaryDetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Pjb-dR-fXi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,6 +177,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="수정"/>
+                                        <connections>
+                                            <action selector="tapEditButton:" destination="djm-XS-2Ah" eventType="touchUpInside" id="NVw-E7-vYM"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGf-hk-rbC">
                                         <rect key="frame" x="80" y="0.0" width="30" height="30"/>
@@ -184,6 +187,9 @@
                                         <state key="normal" title="삭제">
                                             <color key="titleColor" systemColor="systemRedColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapDeleteButton:" destination="djm-XS-2Ah" eventType="touchUpInside" id="vDb-7l-ShD"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -207,6 +213,11 @@
                             <constraint firstItem="CeV-ve-Gbo" firstAttribute="leading" secondItem="QqY-ck-iM0" secondAttribute="leading" constant="24" id="uPz-cv-zWh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="contentsTextView" destination="HOn-No-BdE" id="0oN-za-Pho"/>
+                        <outlet property="dateLabel" destination="olX-5Q-tqH" id="lP6-RA-2N7"/>
+                        <outlet property="titleLabel" destination="2Bd-Ee-jC7" id="wGs-GN-5yE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1lM-5T-pdU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

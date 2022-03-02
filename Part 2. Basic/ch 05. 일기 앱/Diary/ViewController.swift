@@ -99,6 +99,18 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ViewController: UICollectionViewDelegate {
+    // didSelectItemAt은 특정 셀이 선택되었음을 알려주는 주는 메소드
+    // 즉, 선택된 셀으로 push
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: "DiaryDetailViewController") as? DiaryDetailViewController else { return }
+        let diary = self.diaryList[indexPath.row]
+        viewController.diary = diary
+        viewController.indexPath = indexPath
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
 extension ViewController: WriteDiaryViewDelegate {
     func didSelectReigster(diary: Diary) {
         // Diary에 등록되어 넘어온 내용들을, diaryList에 추가되게 된다.
