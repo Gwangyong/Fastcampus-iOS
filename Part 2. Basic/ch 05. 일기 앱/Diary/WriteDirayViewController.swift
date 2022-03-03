@@ -1,5 +1,11 @@
 import UIKit
 
+enum DiaryEditorMode {
+    case new
+    case edit(IndexPath, Diary)
+    
+}
+
 protocol WriteDiaryViewDelegate: AnyObject {
     func didSelectReigster(diary: Diary)
 }
@@ -14,14 +20,37 @@ class WriteDirayViewController: UIViewController {
     private let datePicker = UIDatePicker()
     private var dirayDate: Date?
     weak var delegate: WriteDiaryViewDelegate?
+    var diaryEditorMode: DiaryEditorMode = .new
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureContentsTextView()
         self.configureDatePicker()
         self.configureInputField()
+        self.configureEditMode()
         // 등록 버튼이 초기에 눌리지 않게끔 해줌
         self.confirmButton.isEnabled = false
+    }
+    
+    private func configureEditMode() {
+        switch self.diaryEditorMode {
+        case let .edit(_, diary):
+            self.titleTextField.text = diary.title
+            self.contentsTextView.text = diary.contents
+            self.dateTextField.text = self.dateToString(date: diary.date)
+            self.dirayDate = diary.date
+            self.confirmButton.title = "수정"
+            
+        default:
+            break
+        }
+    }
+    
+    private func dateToString(date: Date) -> String {
+        let formattor = DateFormatter()
+        formattor.dateFormat = "yy년 MM월 dd일(EEEEE)"
+        formattor.locale = Locale(identifier: "ko-KR")
+        return formattor.string(from: date)
     }
     
 
@@ -52,14 +81,27 @@ class WriteDirayViewController: UIViewController {
         self.dateTextField.addTarget(self, action: #selector(dateTextFieldDidChange(_:)), for: .editingChanged)
     }
     
+    // notification Center?
     @IBAction func tapConfirmButton(_ sender: UIBarButtonItem) {
         guard let title = self.titleTextField.text else { return }
         guard let contents = self.contentsTextView.text else { return }
         guard let date = self.dirayDate else { return }
         let diary = Diary(title: title, contents: contents, date: date, isStar: false)
-        self.delegate?.didSelectReigster(diary: diary)
-        self.navigationController?.popViewController(animated: true)
         
+        switch self.diaryEditorMode {
+        case .new:
+            self.delegate?.didSelectReigster(diary: diary)
+        
+        case let .edit(indexPath, _):
+            NotificationCenter.default.post(
+                name: NSNotification.Name("editDiary"),
+                object: diary,
+                userInfo: [
+                    "indexPath.row" : indexPath.row
+                ]
+            )
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc private func datePickerValueDidChange(_ datePicker: UIDatePicker) {
