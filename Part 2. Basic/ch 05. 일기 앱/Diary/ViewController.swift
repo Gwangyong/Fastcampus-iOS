@@ -146,4 +146,9 @@ extension ViewController: DiaryDetailViewDelegate {
         self.diaryList.remove(at: indexPath.row)
         self.collectionView.deleteItems(at: [indexPath])
     }
+    
+    func didSelectStar(indexPath: IndexPath, isStar: Bool) {
+        // diaryList 배열의 셀에 isStar(true or false) = 현재 어떠한 Bool 타입인지 넣어줌 즉, 즐겨찾기 true, false 여부를 넘겨줌
+        self.diaryList[indexPath.row].isStar = isStar
+    }
 }

@@ -2,6 +2,7 @@ import UIKit
 
 protocol DiaryDetailViewDelegate: AnyObject {
     func didSelectDelete(indexPath: IndexPath)
+    func didSelectStar(indexPath: IndexPath, isStar: Bool)
 }
 
 class DiaryDetailViewController: UIViewController {
@@ -37,13 +38,12 @@ class DiaryDetailViewController: UIViewController {
     private func dateToString(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yy년 MM월 dd일(EEEEE)"
-        formatter.locale = Locale(identifier: "ko-KR")
+        formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
     }
     
     @objc func editDiaryNotification(_ notification: Notification) {
         guard let diary = notification.object as? Diary else { return }
-        guard let row = notification.userInfo?["indexPath.row"] as? Int else { return }
         self.diary = diary
         self.configureView()
     }
@@ -70,6 +70,8 @@ class DiaryDetailViewController: UIViewController {
     
     @objc func tapStarButton() {
         guard let isStar = self.diary?.isStar else { return }
+        guard let indexPath = indexPath else { return }
+
         if isStar { // 버튼을 눌렀는데 true였으면 일반 star로
             self.starButton?.image = UIImage(systemName: "star")
         } else { // 버튼을 눌렀는데 false였다면 색칠된 star로
@@ -77,6 +79,8 @@ class DiaryDetailViewController: UIViewController {
         }
         // 눌렀으니 !를 사용하여 반대값을 보내줌
         self.diary?.isStar = !isStar
+        // 즐겨찾기에 값을 보내줘야 하므로, Delegate를 사용해서 즐겨찾기가 되어있는지와, indexPath를 보냄
+        self.delegate?.didSelectStar(indexPath: indexPath, isStar: self.diary?.isStar ?? false)
     }
     
     // 인스턴스가 deinit 될 때, 추가된 옵저버를 모두 삭제
