@@ -16,11 +16,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.configureCollectionView()
         self.loadDiaryList()
+        // addObserver는 다 viewDidLoad() 에서 하네? TIL에 쓸라 한것처럼.
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(editDiaryNotification(_:)),
             name: NSNotification.Name("editDiary"),
-            object: nil)
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(starDiaryNotification(_:)),
+            name: NSNotification.Name("starDiary"),
+            object: nil
+         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(deleteDiary(_:)),
+            name: NSNotification.Name("deleteDiary"),
+            object: nil
+        )
     }
     
     // diaryList에 추가된 내용을 CollectionView에 표시 되도록 하는 코드
@@ -39,6 +53,19 @@ class ViewController: UIViewController {
             $0.date.compare($1.date) == .orderedDescending
         })
         self.collectionView.reloadData()
+    }
+    
+    @objc func starDiaryNotification(_ notification: Notification) {
+        guard let starDiary = notification.object as? [String: Any] else { return }
+        guard let isStar = starDiary["isStar"] as? Bool else { return }
+        guard let indexPath = starDiary["indexPath"] as? IndexPath else { return }
+        self.diaryList[indexPath.row].isStar = isStar
+    }
+    
+    @objc func deleteDiary(_ notification: Notification) {
+        guard let indexPath = notification.object as? IndexPath else { return }
+        self.diaryList.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
     }
     
     // WriteDiaryViewController에서 delegate로 넘겨준 Diary 값을 받을 준비
@@ -122,7 +149,6 @@ extension ViewController: UICollectionViewDelegate {
         let diary = self.diaryList[indexPath.row]
         viewController.diary = diary
         viewController.indexPath = indexPath
-        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -140,15 +166,3 @@ extension ViewController: WriteDiaryViewDelegate {
     }
 }
 
-// DiaryDetailViewController의 Delegate를 통해 받은 indexPath로, 삭제 버튼을 눌렀을 경우에 diaryList와 collectionView에서 삭제함
-extension ViewController: DiaryDetailViewDelegate {
-    func didSelectDelete(indexPath: IndexPath) {
-        self.diaryList.remove(at: indexPath.row)
-        self.collectionView.deleteItems(at: [indexPath])
-    }
-    
-    func didSelectStar(indexPath: IndexPath, isStar: Bool) {
-        // diaryList 배열의 셀에 isStar(true or false) = 현재 어떠한 Bool 타입인지 넣어줌 즉, 즐겨찾기 true, false 여부를 넘겨줌
-        self.diaryList[indexPath.row].isStar = isStar
-    }
-}

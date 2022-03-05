@@ -1,9 +1,5 @@
 import UIKit
 
-protocol DiaryDetailViewDelegate: AnyObject {
-    func didSelectDelete(indexPath: IndexPath)
-    func didSelectStar(indexPath: IndexPath, isStar: Bool)
-}
 
 class DiaryDetailViewController: UIViewController {
 
@@ -11,8 +7,6 @@ class DiaryDetailViewController: UIViewController {
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
     var starButton: UIBarButtonItem?
-    
-    weak var delegate: DiaryDetailViewDelegate?
     
     var diary: Diary?
     var indexPath: IndexPath?
@@ -64,7 +58,11 @@ class DiaryDetailViewController: UIViewController {
     
     @IBAction func tapDeleteButton(_ sender: UIButton) {
         guard let indexPath = self.indexPath else { return }
-        self.delegate?.didSelectDelete(indexPath: indexPath)
+        NotificationCenter.default.post(
+            name: NSNotification.Name("deleteDiary"),
+            object: indexPath,
+            userInfo: nil
+        )
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -80,7 +78,14 @@ class DiaryDetailViewController: UIViewController {
         // 눌렀으니 !를 사용하여 반대값을 보내줌
         self.diary?.isStar = !isStar
         // 즐겨찾기에 값을 보내줘야 하므로, Delegate를 사용해서 즐겨찾기가 되어있는지와, indexPath를 보냄
-        self.delegate?.didSelectStar(indexPath: indexPath, isStar: self.diary?.isStar ?? false)
+        NotificationCenter.default.post(
+            name: NSNotification.Name("starDiary"),
+            object: [
+                "isStar": self.diary?.isStar ?? false,
+                "indexPath": indexPath
+            ],
+            userInfo: nil
+        )
     }
     
     // 인스턴스가 deinit 될 때, 추가된 옵저버를 모두 삭제
