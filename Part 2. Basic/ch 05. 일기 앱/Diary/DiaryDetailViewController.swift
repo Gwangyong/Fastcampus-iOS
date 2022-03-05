@@ -9,6 +9,8 @@ class DiaryDetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
+    var starButton: UIBarButtonItem?
+    
     weak var delegate: DiaryDetailViewDelegate?
     
     var diary: Diary?
@@ -24,6 +26,11 @@ class DiaryDetailViewController: UIViewController {
         self.titleLabel.text = diary.title
         self.contentsTextView.text = diary.contents
         self.dateLabel.text = self.dateToString(date: diary.date)
+        // star 버튼을 생성. starButton 이 눌리면, selector 함수가 호출
+        self.starButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(tapStarButton))
+        self.starButton?.image = diary.isStar ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        self.starButton?.tintColor = .orange
+        self.navigationItem.rightBarButtonItem = self.starButton
     }
     
     // 위의 configureView에서 dateLabel에 값을 넣어줄 때, Data 값이기 때문에, String으로 formatter을 해줌
@@ -59,6 +66,17 @@ class DiaryDetailViewController: UIViewController {
         guard let indexPath = self.indexPath else { return }
         self.delegate?.didSelectDelete(indexPath: indexPath)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func tapStarButton() {
+        guard let isStar = self.diary?.isStar else { return }
+        if isStar { // 버튼을 눌렀는데 true였으면 일반 star로
+            self.starButton?.image = UIImage(systemName: "star")
+        } else { // 버튼을 눌렀는데 false였다면 색칠된 star로
+            self.starButton?.image = UIImage(systemName: "star.fill")
+        }
+        // 눌렀으니 !를 사용하여 반대값을 보내줌
+        self.diary?.isStar = !isStar
     }
     
     // 인스턴스가 deinit 될 때, 추가된 옵저버를 모두 삭제
