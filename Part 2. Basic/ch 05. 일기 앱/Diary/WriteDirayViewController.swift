@@ -90,17 +90,28 @@ class WriteDirayViewController: UIViewController {
         
         switch self.diaryEditorMode {
         case .new:
-            let diary = Diary(title: title, contents: contents, date: date, isStar: false)
+            let diary = Diary(
+                // 생성할 떄마다 uuid라는 고유한 값을 주게됨
+                uuidString: UUID().uuidString,
+                title: title,
+                contents: contents,
+                date: date,
+                isStar: false
+            )
             self.delegate?.didSelectReigster(diary: diary)
         
         case let .edit(indexPath, diary):
-            let diary = Diary(title: title, contents: contents, date: date, isStar: diary.isStar)
+            let diary = Diary(
+                uuidString: UUID().uuidString,
+                title: title,
+                contents: contents,
+                date: date,
+                isStar: diary.isStar
+            )
             NotificationCenter.default.post(
                 name: NSNotification.Name("editDiary"),
                 object: diary,
-                userInfo: [
-                    "indexPath.row" : indexPath.row
-                ]
+                userInfo: nil
             )
         }
         self.navigationController?.popViewController(animated: true)
